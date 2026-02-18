@@ -23,6 +23,7 @@
                 </div>
                 <button type="submit" class="bg-white p-2 border-2 text-black">Login</button>
             </form>
+            <p class="text-center text-sm mt-2">Ainda não tem possui conta? Faça o seu <a href="{{ route('site.register') }}" class="underline hover:opacity-50 transition">registo</a></p>
         </section>
     </main>
 </x-layout>
