@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -13,24 +15,33 @@ class LoginController extends Controller
         return view('login');
     }
 
-    public function authenticate(Request $request)
+    public function authenticate(LoginRequest $request)
     {
         // Validate the request
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string|min:4',
-        ]);
-        
+        $credentials = $request->only('email', 'password');
+
         // Attempt to authenticate the user
-        if(Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials)) {
             // Create a new session
             $request->session()->regenerate();
 
-            return redirect()->intended('/');
-        } else {
-            return redirect()->back()->withErrors([
-                'email' => 'Password ou email incorretos',
-            ]);
+            return redirect()->intended(route('site.dashboard'));
         }
+
+        return redirect()->back()->withErrors([
+            'email' => 'O email é inválido',
+            'password' => 'A senha é inválida',
+        ]);
+    }
+
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->intended((route('site.index')));
     }
 }

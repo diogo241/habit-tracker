@@ -7,14 +7,13 @@ class SiteController extends Controller
     public function index()
     {
         $name = 'Diogo';
-        $habits = [
-            'Exercise',
-            'Meditation',
-            'Reading',
-        ];
-        return view('home', [
-            'name' => $name,
-            'habits' => $habits,
-        ]);
+        $email = 'diogo@gmail.com';
+
+        return view('home', compact('name', 'email'));
+    }
+
+    public function dashboard()
+    {
+        return view('dashboard');
     }
 }
