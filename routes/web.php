@@ -6,5 +6,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [SiteController::class, 'index']);
 
-// Login
+// LOGIN
 Route::get('/login', action: [LoginController::class, 'index']);
+Route::post('/login', action: [LoginController::class, 'authenticate']);
