@@ -1,8 +1,19 @@
 <x-layout>
     <main class="py-18">
         <section class="p-4 m-auto">
-            <h1 class="font-bold text-4xl text-center">Dashboard</h1>
-            <p>Bem vindo(a) {{ auth()->user()->name }}</p>
+            @session('success')
+                <div class="flex justify-end">
+                    <div class="bg-green-200 border-2 border-green-600 text-green-600 p-4 flex items-center justify-end max-xl">
+                        {{ session('success') }}
+                    </div>
+                </div>
+            @endsession
+
+            <div class="flex flex-col items-center justify-center gap-2">
+                <h1 class="font-bold text-4xl text-center">Dashboard</h1>
+                <p>Bem vindo(a) {{ auth()->user()->name }}</p>
+                <a href={{ route('habit.create') }} class="bg-white p-2 border-2 self-end">Adicionar Hábito</a>
+            </div>
             <div>
                 <h2 class="text-2xl mt-4">Habits</h2>
                 <ul class="flex flex-col gap-2">
@@ -15,6 +26,13 @@
                             <p>
                                 [{{ $habit->habitLogs->count() }}]
                             </p>
+                            <form action="{{ route('habit.destroy', $habit) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="bg-red-500 fill-white border-red-600 hover:opacity-70 border-2 p-1">
+                                    <x-icons.trash/>
+                                </button>
+                            </form>
                         </div>
                     </li>
                     @empty
