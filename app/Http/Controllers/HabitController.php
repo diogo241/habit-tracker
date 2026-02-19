@@ -17,7 +17,9 @@ class HabitController extends Controller
      */
     public function index()
     {
-        $habits = Auth::user()->habits;
+        $habits = Auth::user()->habits()
+            ->with('habitLogs')
+            ->get();
 
         return view('dashboard', compact('habits'));
     }
@@ -127,8 +129,7 @@ class HabitController extends Controller
                 'completed_at' => $today,
             ]);
             $message = 'Hábito concluído';
-        }
-        ;
+        };
 
         return redirect()
             ->route('habits.index')

@@ -16,7 +16,6 @@
                 @forelse($habits as $habit)
                     <li class="habit-shadow-lg p-2 bg-[#ffdaac]">
                         <div class="flex gap-2 items-center">
-                            <input type="checkbox" class="w-6 h-6" {{ $habit->is_completed ? 'checked' : '' }} disabled />
                             <p class="font-bold text-lg">{{ $habit->name }}</p>
                             <a href="{{ route('habits.edit', $habit) }}"
                                 class="border-2 p-1 bg-amber-200 border-amber-400 hover:opacity-70 fill-amber-400">
