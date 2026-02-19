@@ -155,6 +155,9 @@ class HabitController extends Controller
             }])
             ->get();
 
-        return view('habits.history', compact('habits', 'selectedYear'));
+        // Generate weeks
+        $weeks = Habit::generateYearGrid($selectedYear);
+
+        return view('habits.history', compact('habits', 'selectedYear', 'weeks'));
     }
 }

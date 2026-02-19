@@ -44,4 +44,50 @@ class Habit extends Model
             ->where('completed_at', Carbon::today()->toDateString())
             ->isNotEmpty();
     }
+
+    /**
+     * Generate grid graph for history of habits
+     * 
+     * @param int $year
+     * @return array
+     */
+    public static function generateYearGrid(int $year): array
+    {
+        $startDate = Carbon::create($year, 1, 1);
+        $endDate = Carbon::create($year, 12, 31);
+
+        $weeks = [];
+        $currentWeek = [];
+
+        // Put empty years at the beginning
+        $firstDayOfWeek = $startDate->dayOfWeek;
+        for ($i = 0; $i < $firstDayOfWeek; $i++) {
+            $currentWeek[] = null;
+        }
+
+        // Group days by week (Sunday to Saturday)
+        for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay()) {
+            $currentWeek[] = $date->copy();
+
+            // Close week on Saturday or end of year
+            if ($date->isSaturday() || $date->eq($endDate)) {
+                $weeks[] = $currentWeek;
+                $currentWeek = [];
+            }
+        }
+
+        return $weeks;
+    }
+
+    /**
+     * Check if habit was completed in a given day
+     */
+
+    public function wasCompletedOnDay(Carbon $day): bool
+    {
+        return $this->habitLogs
+            ->where('user_id', Auth::user()->id)
+            ->where('completed_at', $day->toDateString())
+            ->isNotEmpty();
+    }
 }

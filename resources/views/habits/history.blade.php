@@ -11,10 +11,10 @@
         <x-navbar />
 
         <div>
-            <h2 class="text-xl mt-8 mb-2">{{ date('d/m/Y') }}</h2>
+            <h2 class="text-2xl mt-8 mb-2 font-bold">Histórico</h2>
             <div class="mt-4">
                 @forelse($habits as $habit)
-                    <x-contribution :$habit :selectedYear />
+                    <x-contribution :$habit :$selectedYear :$weeks />
                 @empty
                     <div>
                         <p class="text-black">
