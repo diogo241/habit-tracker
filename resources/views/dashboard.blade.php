@@ -1,5 +1,5 @@
 <x-layout>
-    <main class="py-18">
+    <main class="py-18 min-h-[calc(100vh-130px)]">
         <section class="p-4 m-auto">
             @session('success')
                 <div class="flex justify-end">

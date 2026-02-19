@@ -1,5 +1,5 @@
 <x-layout>
-    <main class="py-12">
+    <main class="py-12 min-h-[calc(100vh-130px)]">
         <section class="bg-white max-w-150 mx-auto p-10 border-2">
             <h1 class="font-bold text-2xl">Registo</h1>
             <form method="POST" action="{{ route('auth.register') }}" class="flex flex-col mt-4">
@@ -43,7 +43,7 @@
                 </div>
                 <button type="submit" class="bg-white p-2 border-2 text-black">Registar</button>
             </form>
-            <p class="text-center text-sm mt-2">Ainda não tem possui conta? Faça o seu <a href="{{ route('site.register') }}" class="underline hover:opacity-50 transition">registo</a></p>
+            <p class="text-center text-sm mt-2">Já possui conta? Faça o seu <a href="{{ route('site.login') }}" class="underline hover:opacity-50 transition">login</a></p>
         </section>
     </main>
 </x-layout>
