@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+
+
 class SiteController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        $name = 'Diogo';
-        $email = 'diogo@gmail.com';
-
-        return view('home', compact('name', 'email'));
+        return view('home');
     }
 
-    public function dashboard()
+    public function dashboard(): View
     {
-        return view('dashboard');
+        $habits = auth()->user()->habits ;
+
+        return view('dashboard', compact('habits'));
     }
 }

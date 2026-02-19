@@ -49,7 +49,7 @@ class User extends Authenticatable
     /**
      * One user can have many habits -> using Eloquent ORM relationships
      */
-    public function habbits(): HasMany
+    public function habits(): HasMany
     {
         return $this->hasMany(Habit::class);
     }
