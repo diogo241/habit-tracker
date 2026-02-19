@@ -52,17 +52,29 @@ class HabitController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Habit $habit): View
     {
-        //
+        return view('habits.edit', compact('habit'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(HabitRequest $request, Habit $habit)
     {
-        //
+        // Validate if the user is the owner of the habit
+        if ($habit->user_id != auth()->user()->id) {
+            abort(403, 'Esse hábito não pertence a si');
+        }
+
+        // Validate form request
+        $validated = $request->validated();
+
+        $habit->update($validated);
+
+        return redirect()
+            ->route('site.dashboard')
+            ->with('success', 'Hábito atualizado com sucesso');
     }
 
     /**
