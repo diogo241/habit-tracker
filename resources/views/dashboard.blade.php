@@ -12,11 +12,8 @@
 
         <div>
             <h2 class="text-xl mt-8 mb-2">{{ date('d/m/Y') }}</h2>
-
-
             <ul class="flex flex-col gap-2">
                 @forelse($habits as $habit)
-    
                     <li class="habit-shadow-lg p-2 bg-[#ffdaac]">
                         <form method="POST" action="{{ route('habits.toggle', $habit->id) }}"
                             id="form-{{ $habit->id }}" class="flex gap-2 items-center">
@@ -30,9 +27,12 @@
 
                 @empty
                     <p>Ainda não tem habits</p>
-                    <a href="" class="bg-white p-2 border-2">Registar hábito</a>
                 @endforelse
             </ul>
+            <div class="mt-8">
+                <a href="{{ route('habits.create') }}" class="bg-habit-orange habit-btn habit-shadow-lg p-2">Registar
+                    hábito</a>
+            </div>
         </div>
     </main>
 </x-layout>

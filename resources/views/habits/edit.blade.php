@@ -19,7 +19,7 @@
                             <p class="text-red-500 text-sm">{{ $message }}</p>
                         @enderror
                     </div>
-                    <button type="submit" class="bg-white p-2 border-2 text-black">Atualizar</button>
+                    <button type="submit" class="habit-btn bg-habit-orange habit-shadow-lg p-2 text-black">Atualizar</button>
                 </form>
             </div>
         </section>
