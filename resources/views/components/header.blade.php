@@ -1,7 +1,7 @@
 <header class="bg-white border-bottom border-b-2 flex items-center justify-between p-4">
     {{-- Logo --}}
     <div>
-        <a href="{{ route('habits.index') }}" class="habit-btn habit-shadow-lg px-2 py-1 ">HT</a>
+        <a href="{{ route('habits.index') }}" class="habit-btn bg-habit-orange habit-shadow-lg px-2 py-1 ">HT</a>
     </div>
 
     @auth
