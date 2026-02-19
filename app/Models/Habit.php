@@ -90,4 +90,12 @@ class Habit extends Model
             ->where('completed_at', $day->toDateString())
             ->isNotEmpty();
     }
+
+    /**
+     * Get habit logs with lower completed year
+     */
+    public function habitLogsWithLowerCompletedYear(): int
+    {
+        return Carbon::parse($this->habitLogs()->min('completed_at'))->year;
+    }
 }

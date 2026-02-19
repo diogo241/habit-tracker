@@ -139,10 +139,29 @@ class HabitController extends Controller
     /**
      * Display the habits history
      */
-    public function history()
+    public function history(?int $year = null): View
     {
         // Get the current year
-        $selectedYear = Carbon::now()->year;
+        $selectedYear = $year ?? Carbon::now()->year;
+
+        // User habit logs
+        $habits = Auth::user()->habits;
+
+        // Find the earliest year from any habit log
+        $earliestYear = Carbon::now()->year;
+        foreach ($habits as $habit) {
+            $lowerLog = $habit->habitLogsWithLowerCompletedYear();
+            if ($lowerLog < $earliestYear) {
+                $earliestYear = $lowerLog;
+            }
+        }
+
+        // Available years
+        $availableYears = range($earliestYear, Carbon::now()->year);
+
+        if (!in_array($selectedYear, $availableYears)) {
+            abort(404, 'Ano não encontrado');
+        }
 
         // Set begin and end of year
         $startDate = Carbon::create($selectedYear, 1, 1);
@@ -158,6 +177,6 @@ class HabitController extends Controller
         // Generate weeks
         $weeks = Habit::generateYearGrid($selectedYear);
 
-        return view('habits.history', compact('habits', 'selectedYear', 'weeks'));
+        return view('habits.history', compact('habits', 'lowerLog', 'selectedYear', 'weeks', 'availableYears'));
     }
 }

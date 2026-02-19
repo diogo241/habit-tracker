@@ -22,5 +22,5 @@ Route::middleware('auth')->group(function () {
   Route::resource('/dashboard/habits', HabitController::class)->except('show');
   Route::get('/dashboard/habits/config', [HabitController::class, 'settings'])->name('habits.settings');
   Route::post('/dashboard/{habit}/toggle', [HabitController::class, 'toggle'])->name('habits.toggle');
-  Route::get('/dashboard/habits/history', [HabitController::class, 'history'])->name('habits.history');
+  Route::get('/dashboard/habits/history/{year?}', [HabitController::class, 'history'])->name('habits.history');
 });
