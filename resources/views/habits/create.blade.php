@@ -6,7 +6,7 @@
                 <p>Registar novo hábito</p>
             </div>
             <div class="max-w-150 mx-auto">
-                <form method="POST" action="{{ route('habit.store') }}" class="flex flex-col mt-4">
+                <form method="POST" action="{{ route('habits.store') }}" class="flex flex-col mt-4">
                     @csrf
                     <div class="flex flex-col gap-1 mb-4">
                     <label for="name">Nome</label>

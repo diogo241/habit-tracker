@@ -16,13 +16,8 @@ Route::post('/register', action: [RegisterController::class, 'store'])->name('au
 
 // ROUTES FOR AUTHENTICATED USERS
 Route::middleware('auth')->group(function () {
-  Route::get('/dashboard', [SiteController::class, 'dashboard'])->name('site.dashboard');
   Route::post('/logout', action: [LoginController::class, 'logout'])->name('auth.logout');
 
   // HABITS
-  Route::get('/dashboard/habits/create', action: [HabitController::class, 'create'])->name('habit.create');
-  Route::post('/dashboard/habits', action: [HabitController::class, 'store'])->name('habit.store');
-  Route::delete('/dashboard/habits/{habit}', action: [HabitController::class, 'destroy'])->name('habit.destroy');
-  Route::get('/dashboard/habits/{habit}/edit', action: [HabitController::class, 'edit'])->name('habit.edit');
-  Route::put('/dashboard/habits/{habit}', action: [HabitController::class, 'update'])->name('habit.update');
+  Route::resource('/dashboard/habits', HabitController::class)->except('show');
 });

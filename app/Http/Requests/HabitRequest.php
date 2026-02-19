@@ -22,7 +22,7 @@ class HabitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|min:2',
+            'name' => 'required|string|max:255|min:2|unique:habits,name',
         ];
     }
 
@@ -33,6 +33,7 @@ class HabitRequest extends FormRequest
             'name.max' => 'O nome deve ter no máximo 255 caracteres',
             'name.min' => 'O nome deve ter pelo menos 2 caracteres',
             'name.string' => 'O nome deve ser um texto válido',
+            'name.unique' => 'O nome já está em uso',
         ];
     }
 }

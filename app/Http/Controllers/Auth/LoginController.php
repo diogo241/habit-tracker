@@ -25,7 +25,7 @@ class LoginController extends Controller
             // Create a new session
             $request->session()->regenerate();
 
-            return redirect()->intended(route('site.dashboard'));
+            return redirect()->intended(route('habits.index'));
         }
 
         return redirect()->back()->withErrors([

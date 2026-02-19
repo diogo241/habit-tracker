@@ -6,10 +6,10 @@
                 <p>Editar hábito</p>
             </div>
             <div class="max-w-150 mx-auto">
-                <form method="POST" action="{{ route('habit.update', $habit) }}" class="flex flex-col mt-4">
+                <form method="POST" action="{{ route('habits.update', $habit) }}" class="flex flex-col mt-4">
                     @csrf
                     @method('PUT')
-                    
+
                     <div class="flex flex-col gap-1 mb-4">
                     <label for="name">Nome</label>
                     <input type="name" name="name" value="{{ $habit->name }}" required class="bg-white p-2 border-2 @error('name') border-red-500 @enderror">

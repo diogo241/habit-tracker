@@ -12,7 +12,7 @@
             <div class="flex flex-col items-center justify-center gap-2">
                 <h1 class="font-bold text-4xl text-center">Dashboard</h1>
                 <p>Bem vindo(a) {{ auth()->user()->name }}</p>
-                <a href={{ route('habit.create') }} class="bg-white p-2 border-2 self-end">Adicionar Hábito</a>
+                <a href={{ route('habits.create') }} class="bg-white p-2 border-2 self-end">Adicionar Hábito</a>
             </div>
             <div>
                 <h2 class="text-2xl mt-4">Habits</h2>
@@ -26,10 +26,10 @@
                             <p>
                                 [{{ $habit->habitLogs->count() }}]
                             </p>
-                            <a href="{{ route('habit.edit', $habit) }}" class="border-2 p-1 bg-amber-200 border-amber-400 hover:opacity-70 fill-amber-400">
+                            <a href="{{ route('habits.edit', $habit) }}" class="border-2 p-1 bg-amber-200 border-amber-400 hover:opacity-70 fill-amber-400">
                                 <x-icons.pencil/>
                             </a>
-                            <form action="{{ route('habit.destroy', $habit) }}" method="POST">
+                            <form action="{{ route('habits.destroy', $habit) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="bg-red-500 fill-white border-red-600 hover:opacity-70 border-2 p-1">
