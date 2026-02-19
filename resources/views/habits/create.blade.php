@@ -1,5 +1,5 @@
 <x-layout>
-    <main class="py-18">
+    <main class="py-18 min-h-[calc(100vh-130px)]">
         <section class="p-4 m-auto">
             <div class="flex flex-col items-center justify-center gap-2">
                 <h1 class="font-bold text-4xl text-center">Dashboard</h1>

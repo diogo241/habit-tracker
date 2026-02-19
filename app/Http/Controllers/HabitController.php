@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Http\Requests\HabitRequest;
@@ -12,6 +13,8 @@ use App\Models\HabitLog;
 
 class HabitController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -54,6 +57,8 @@ class HabitController extends Controller
      */
     public function edit(Habit $habit): View
     {
+        $this->authorize('update', $habit);
+
         return view('habits.edit', compact('habit'));
     }
 
@@ -63,9 +68,7 @@ class HabitController extends Controller
     public function update(HabitRequest $request, Habit $habit)
     {
         // Validate if the user is the owner of the habit
-        if ($habit->user_id != Auth::user()->id) {
-            abort(403, 'Esse hábito não pertence a si');
-        }
+        $this->authorize('update', $habit);
 
         // Validate form request
         $validated = $request->validated();
@@ -83,9 +86,8 @@ class HabitController extends Controller
     public function destroy(Habit $habit)
     {
         // Validate if the user is the owner of the habit
-        if ($habit->user_id != Auth::user()->id) {
-            abort(403, 'Esse hábito não pertence a si');
-        }
+        $this->authorize('delete', $habit);
+
 
         $habit->delete();
 
@@ -105,9 +107,7 @@ class HabitController extends Controller
     public function toggle(Habit $habit)
     {
         // Validate if the user is the owner of the habit
-        if ($habit->user_id != Auth::user()->id) {
-            abort(403, 'Esse hábito não pertence a si');
-        }
+        $this->authorize('toggle', $habit);
 
         // Check todays date
         $today = Carbon::today()->toDateTimeString();
