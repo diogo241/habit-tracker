@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Http\Requests\HabitRequest;
 use App\Models\Habit;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use App\Models\HabitLog;
 
 class HabitController extends Controller
 {
@@ -14,7 +17,7 @@ class HabitController extends Controller
      */
     public function index()
     {
-        $habits = auth()->user()->habits;
+        $habits = Auth::user()->habits;
 
         return view('dashboard', compact('habits'));
     }
@@ -37,19 +40,11 @@ class HabitController extends Controller
         $validated = $request->validated();
 
         // Create habit
-        auth()->user()->habits()->create($validated);
+        Auth::user()->habits()->create($validated);
 
         return redirect()
             ->route('habits.index')
             ->with('success', 'Hábito criado com sucesso');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
@@ -66,7 +61,7 @@ class HabitController extends Controller
     public function update(HabitRequest $request, Habit $habit)
     {
         // Validate if the user is the owner of the habit
-        if ($habit->user_id != auth()->user()->id) {
+        if ($habit->user_id != Auth::user()->id) {
             abort(403, 'Esse hábito não pertence a si');
         }
 
@@ -86,7 +81,7 @@ class HabitController extends Controller
     public function destroy(Habit $habit)
     {
         // Validate if the user is the owner of the habit
-        if ($habit->user_id != auth()->user()->id) {
+        if ($habit->user_id != Auth::user()->id) {
             abort(403, 'Esse hábito não pertence a si');
         }
 
@@ -100,8 +95,43 @@ class HabitController extends Controller
     public function settings()
     {
 
-        $habits = auth()->user()->habits;
+        $habits = Auth::user()->habits;
 
         return view('habits.settings', compact('habits'));
+    }
+
+    public function toggle(Habit $habit)
+    {
+        // Validate if the user is the owner of the habit
+        if ($habit->user_id != Auth::user()->id) {
+            abort(403, 'Esse hábito não pertence a si');
+        }
+
+        // Check todays date
+        $today = Carbon::today()->toDateTimeString();
+
+        // Get log
+        $log = HabitLog::query()
+            ->where('habit_id', $habit->id)
+            ->where('completed_at', $today)
+            ->first();
+
+        if ($log) {
+            // If exits, remove register
+            $log->delete();
+            $message = 'Hábito desmarcado com sucesso';
+        } else {
+            HabitLog::create([
+                'habit_id' => $habit->id,
+                'user_id' => Auth::user()->id,
+                'completed_at' => $today,
+            ]);
+            $message = 'Hábito concluído';
+        }
+        ;
+
+        return redirect()
+            ->route('habits.index')
+            ->with('success', $message);
     }
 }
